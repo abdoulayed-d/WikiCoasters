@@ -24,6 +24,13 @@
                 <td>{{ entity.maxHeight }}</td>
                 <td>{{ entity.operating ? "✅" : "🔴" }}</td>
                 <td>{{ entity.name }}</td>
+                <td>
+                    <a
+                        href="{{ path('app_coaster_edit', { id: entity.id }) }}"
+                        class="btn btn-sn btn-accent"
+                        >Modifier
+                    </a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

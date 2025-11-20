@@ -3,10 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Coaster;
+use App\Entity\Park;
+use Dom\Entity;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 
 class CoasterType extends AbstractType
 {
@@ -24,6 +28,10 @@ class CoasterType extends AbstractType
                     'Non' => false
                 ],
                 'expanded' => true,
+            ])
+            ->add('park', EntityType::class, [
+                'class' => Park::class,
+                'required' => false,
             ])
         ;
     }
