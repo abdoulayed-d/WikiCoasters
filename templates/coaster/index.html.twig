@@ -10,6 +10,7 @@
                 <th>Vit. Max</th>
                 <th>Haut. Max</th>
                 <th>En fonction</th>
+                <th>Parc</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -23,7 +24,7 @@
                 <td>{{ entity.maxSpeed }}</td>
                 <td>{{ entity.maxHeight }}</td>
                 <td>{{ entity.operating ? "✅" : "🔴" }}</td>
-                <td>{{ entity.name }}</td>
+                <td>{{ entity.park }}</td>
                 <td>
                     <a
                         href="{{ path('app_coaster_edit', { id: entity.id }) }}"

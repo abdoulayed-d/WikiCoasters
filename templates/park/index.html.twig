@@ -8,6 +8,7 @@ block body %}
             <th>Name</th>
             <th>Pays</th>
             <th>OpeningYear</th>
+            <th>Nb. coasters</th>
             <th>actions</th>
         </tr>
     </thead>
@@ -15,11 +16,9 @@ block body %}
         {% for park in parks %}
         <tr>
             <td>{{ park.name }}</td>
-            <td>
-                {{ $builder->add('isAttending', ChoiceType::class, [ 'choices' => [
-                'Maybe' => null, 'Yes' => true, 'No' => false, ], ]); }}
-            </td>
+            <td>{{ park.country|country_name('FR') }}</td>
             <td>{{ park.openingYear }}</td>
+            <td>{{ park.coasters.count }}</td>
             <td>
                 <a href="{{ path('app_park_show', { id: park.id }) }}"
                     >Afficher</a

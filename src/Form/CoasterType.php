@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Coaster;
 use App\Entity\Park;
 use Dom\Entity;
@@ -29,9 +30,22 @@ class CoasterType extends AbstractType
                 ],
                 'expanded' => true,
             ])
+            // EntityType::class = Symfony\Bridge\Doctrine\Form\Type\EntityType
             ->add('park', EntityType::class, [
                 'class' => Park::class,
                 'required' => false,
+                'group_by' => 'country'
+            ])
+
+            ->add('categories', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true,
+                'query_builder' => function (\App\Repository\CategoryRepository $cr) {
+                    return $cr->createQueryBuilder('c')
+                        ->orderBy('c.name', 'ASC');
+                },
             ])
         ;
     }
