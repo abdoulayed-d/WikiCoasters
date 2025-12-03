@@ -6,14 +6,22 @@
     <select name="park" class="select">
         <option value="">Tous les parcs</option>
         {% for park in parks %}
-        <option value="{{ park.id }}">{{ park.name }}</option>
+        <option value="{{ park.id }}" {{ parkId == park.id ? 'selected' : '' }}>
+            {{ park.name }}
+        </option>
         {% endfor %}
     </select>
 
     <select name="category" class="select ms-2">
         <option value="">Toutes les catégories</option>
         {% for category in categories %}
-        <option value="{{ category.id }}">{{ category.name }}</option>
+        <option
+            value="{{ category.id }}" {{
+                categoryId == category.id ? 'selected' : ''
+            }}
+        >
+            {{ category.name }}
+        </option>
         {% endfor %}
     </select>
 
@@ -76,5 +84,5 @@
         </tbody>
     </table>
 </div>
-
+{% include "utils/_pagination.html.twig" with {'route' : 'app_coaster_index'} %}
 {% endblock %}

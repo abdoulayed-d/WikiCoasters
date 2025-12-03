@@ -19,20 +19,29 @@ class CoasterController extends AbstractController
     #[Route(path: '/coaster')]
     public function index(CoasterRepository $coasterRepository, ParkRepository $parkRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
-        //Récupère toutes les entités Coasters
-        $entities = $coasterRepository->findAll();
+        // Récupère toutes les entités Coasters
+        // $entities = $coasterRepository->findAll();
         $parks = $parkRepository->findAll();
         $categories = $categoryRepository->findAll();
 
         // valeurs envoyées  depuis le formulaire de filtre
         $parkId = (int) $request->query->get('park');
-        $categiryId = (int) $request->query->get('category');
+        $categoryId = (int) $request->query->get('category');
+        $page = (int) $request->query->get('category');
+        $count = 2;
+        $page = (int) $request->query->get('p', 1);
+        $entities = $coasterRepository->findFiltered($parkId, $categoryId);
 
+        $pageCount = max(ceil($entities->count() / $count), 1);
 
         return $this->render('coaster/index.html.twig', [
             'entities' => $entities, // Envoi des entités dans la vue
             'parks' => $parks,
             'categories' => $categories,
+            'parkId' => $parkId,
+            'categoryId' => $categoryId,
+            'pageCount' => $pageCount, //Nombre de pages
+            'page' => $page, // Numéro de la page à afficher
         ]);
     }
 

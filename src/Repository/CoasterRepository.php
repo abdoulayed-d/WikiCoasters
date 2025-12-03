@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Coaster;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,11 +17,23 @@ class CoasterRepository extends ServiceEntityRepository
         parent::__construct($registry, Coaster::class);
     }
 
-    public function findFiltered(int $parkId = 0, int $categoryId = 0): array
+    public function findFiltered(int $parkId = 0, int $catId = 0, int $count = 2, int $page = 1): Paginator
     {
         $qb = $this->createQueryBuilder('c')
             ->leftJoin('c.park', 'p')
-            ->leftJoin('c.category', 'ca');
+            ->leftJoin('c.categories', 'ca');
+        if ($parkId > 0) {
+            $qb->andWhere('p.id = :parkId')->setParameter('parkId', $parkId);
+        }
+
+        if ($catId > 0) {
+            $qb->andWhere('ca.id = :catId')->setParameter('catId', $catId);
+        }
+
+        $begin = ($page - 1) * $count;
+        $qb->setFirstResult($begin)->setMaxResults($count);
+
+        return new Paginator($qb->getQuery());
     }
 
     //    /**
@@ -30,7 +43,7 @@ class CoasterRepository extends ServiceEntityRepository
     //    {
     //        return $this->createQueryBuilder('c')
     //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
+    //            ->setParameter('val', $value),
     //            ->orderBy('c.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
