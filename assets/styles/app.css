@@ -1,3 +1,4 @@
 @import "tailwindcss";
 @source "../../templates";
 @plugin "daisyui";
+@import "bootstrap-icons/font/bootstrap-icons";

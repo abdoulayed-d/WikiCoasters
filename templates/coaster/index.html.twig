@@ -1,11 +1,32 @@
 {% extends "base.html.twig" %} {% block body %}
 <h1>Liste de Coasters</h1>
 <a href="{{ path('app_coaster_add') }}" class="btn btn-success">Ajouter</a>
+
+<form action="" method="GET" class="flex py-3">
+    <select name="park" class="select">
+        <option value="">Tous les parcs</option>
+        {% for park in parks %}
+        <option value="{{ park.id }}">{{ park.name }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="category" class="select ms-2">
+        <option value="">Toutes les catégories</option>
+        {% for category in categories %}
+        <option value="{{ category.id }}">{{ category.name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="ms-2 btn-default">
+        <i class="bi bi-funnel"></i> Filtrer
+    </button>
+</form>
 <div class="overflow-x-auto">
     <table class="table">
         <thead>
             <tr>
-                <th>Nom</th>
+                <th>Park</th>
+                <th>Catégories</th>
                 <th>Longueur</th>
                 <th>Vit. Max</th>
                 <th>Haut. Max</th>
@@ -20,6 +41,17 @@
                 <td>
                     <strong>{{ entity.name }}</strong>
                 </td>
+                <td>
+                    {% for category in entity.categories %}
+                    <span
+                        class="badge"
+                        style="background-color: {{ category.color }}"
+                        ;
+                    >
+                        {{ category.name }}
+                    </span>
+                    {% endfor %}
+                </td>
                 <td>{{ entity.length }}</td>
                 <td>{{ entity.maxSpeed }}</td>
                 <td>{{ entity.maxHeight }}</td>
@@ -30,6 +62,13 @@
                         href="{{ path('app_coaster_edit', { id: entity.id }) }}"
                         class="btn btn-sn btn-accent"
                         >Modifier
+                    </a>
+                    <a
+                        href="{{
+                            path('app_coaster_delete', { id: entity.id })
+                        }}"
+                        class="btn btn-sn btn-delete"
+                        >Supprimer
                     </a>
                 </td>
             </tr>
